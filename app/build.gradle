@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
 
+apply plugin: 'com.google.protobuf'
+
 apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
@@ -22,6 +24,20 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    sourceSets {
+        main {
+            proto {
+                srcDir 'src/main/protobuf'
+                srcDir 'src/main/protocolbuffers'
+                include '**/*.protodevel'
+            }
+            java {
+                srcDir 'src/main/protobuf'
+                srcDir 'src/main/protocolbuffers'
+                include '**/*.protodevel'
+            }
+        }
+    }
 }
 
 dependencies {
@@ -37,7 +53,34 @@ dependencies {
     kapt "com.google.dagger:dagger-android-processor:${versions.dagger}"
     kapt "com.google.dagger:dagger-compiler:${versions.dagger}"
 
+    implementation 'com.google.protobuf:protobuf-java:3.6.0'
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+}
+
+protobuf {
+    protoc {
+        // You still need protoc like in the non-Android case
+        artifact = 'com.google.protobuf:protoc:3.0.0'
+    }
+    plugins {
+        javalite {
+            // The codegen for lite comes as a separate artifact
+            artifact = 'com.google.protobuf:protoc-gen-javalite:3.0.0'
+        }
+    }
+    generateProtoTasks {
+        all().each { task ->
+            task.builtins {
+                // In most cases you don't need the full Java output
+                // if you use the lite output.
+                remove java
+            }
+            task.plugins {
+                javalite { }
+            }
+        }
+    }
 }
