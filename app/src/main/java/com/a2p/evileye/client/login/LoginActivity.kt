@@ -1,10 +1,10 @@
 package com.a2p.evileye.client.login
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.a2p.evileye.client.R
+import dagger.android.support.DaggerAppCompatActivity
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : DaggerAppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
