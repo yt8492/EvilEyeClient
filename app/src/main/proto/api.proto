@@ -2,7 +2,7 @@
 
 syntax = "proto3";
 option java_multiple_files = true;
-option java_package = "com.a2p.evileye.client.protobuf";
+option java_package = "com.yt8492.evileye.protobuf";
 option java_outer_classname = "EeProto";
 
 package evileye;
@@ -24,6 +24,15 @@ message User {
 message HealthCheckRes {
     string commit_hash = 1;
     uint64 build_time = 2;
+}
+
+message LoginRequest {
+    string screen_name = 1;
+    string password = 2;
+}
+
+message LoginRes {
+    string token = 1;
 }
 
 message TarekomiReq {
@@ -70,12 +79,23 @@ message AddStarReq {
     int64 tarekomi_id = 1;
 }
 
-service Private {
+service Public {
     /*
         HealthCheck
         ヘルスチェック用
      */
     rpc HealthCheck(google.protobuf.Empty) returns (HealthCheckRes);
+
+    /*
+        Login
+        ログイン。トークンを返す
+        PrivateなServiceの通信では metadataのkey`Authorization`に`Bearer {token}` をつけて通信すること
+     */
+    rpc Login(LoginRequest) returns (LoginRes);
+
+}
+
+service Private {
     /*
         Tarekomi
         Tarekomi returns some status
