@@ -5,9 +5,14 @@ import androidx.appcompat.app.AppCompatActivity
 import com.a2p.evileye.client.R
 import com.a2p.evileye.client.data.user.UserRepository
 import com.a2p.evileye.client.util.ActivityUtils
+import com.github.salomonbrys.kodein.*
+import com.github.salomonbrys.kodein.android.appKodein
 import io.grpc.ManagedChannelBuilder
 
 class LoginActivity : AppCompatActivity() {
+
+    private val injector = KodeinInjector()
+    private val presenter: LoginContract.Presenter by injector.instance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,9 +22,11 @@ class LoginActivity : AppCompatActivity() {
             ?: LoginFragment.newInstance().apply {
                 ActivityUtils.addFragmentToActivity(supportFragmentManager, this, R.id.loginFragmentContainer)
             }
-        val channel = ManagedChannelBuilder.forAddress("localhost", 50051)
-            .usePlaintext()
-            .build()
-        val presenter = LoginPresenter(UserRepository(channel), loginFragment)
+
+        injector.inject(Kodein {
+            extend(appKodein())
+            import(loginPresenterModule(loginFragment))
+            bind<LoginContract.Presenter>() with provider { LoginPresenter(instance(), instance()) }
+        })
     }
 }

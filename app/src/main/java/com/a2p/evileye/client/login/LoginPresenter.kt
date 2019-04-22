@@ -1,8 +1,8 @@
 package com.a2p.evileye.client.login
 
-import com.a2p.evileye.client.data.user.UserDataSource
+import com.a2p.evileye.client.data.user.UserRepository
 
-class LoginPresenter(private val userRepository: UserDataSource,
+class LoginPresenter(private val userRepository: UserRepository,
                      private val view: LoginContract.View) : LoginContract.Presenter {
     init {
         view.presenter = this

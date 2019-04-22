@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 
 import com.a2p.evileye.client.R
@@ -29,7 +30,7 @@ class LoginFragment : Fragment(), LoginContract.View {
     }
 
     override fun openVoteList() {
-
+        Toast.makeText(context, "Connected", Toast.LENGTH_SHORT).show()
     }
 
     companion object {
