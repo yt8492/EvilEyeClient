@@ -67,7 +67,7 @@ dependencies {
 protobuf {
     protoc {
         // You still need protoc like in the non-Android case
-        artifact = 'com.google.protobuf:protoc:3.0.0'
+        artifact = 'com.google.protobuf:protoc:3.6.0'
     }
     plugins {
         javalite {
