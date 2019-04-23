@@ -1,7 +1,7 @@
 package com.a2p.evileye.client
 
 import android.app.Application
-import com.a2p.evileye.client.data.user.UserRepository
+import com.a2p.evileye.client.data.EvilEyeService
 import com.a2p.evileye.client.di.applicationModule
 import com.github.salomonbrys.kodein.*
 import io.grpc.ManagedChannel
@@ -15,6 +15,11 @@ class App : Application(), KodeinAware {
                 .usePlaintext()
                 .build()
         }
-        bind<UserRepository>() with singleton { UserRepository(instance(), instance()) }
+        bind<EvilEyeService>() with singleton {
+            EvilEyeService(
+                instance(),
+                instance()
+            )
+        }
     }
 }
