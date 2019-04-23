@@ -11,10 +11,10 @@ class App : Application(), KodeinAware {
     override val kodein by Kodein.lazy {
         import(applicationModule(this@App))
         bind<ManagedChannel>() with singleton {
-            ManagedChannelBuilder.forAddress("127.0.0.1", 50051)
+            ManagedChannelBuilder.forAddress("10.0.2.2", 50051)
                 .usePlaintext()
                 .build()
         }
-        bind<UserRepository>() with singleton { UserRepository(instance()) }
+        bind<UserRepository>() with singleton { UserRepository(instance(), instance()) }
     }
 }
