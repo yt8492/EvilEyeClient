@@ -9,13 +9,11 @@ class LoginPresenter(private val evilEyeService: EvilEyeService,
     }
 
     override fun start() {
-        evilEyeService.checkConnection { isConnected ->
-            if (isConnected) {
-                checkLogin()
-            } else {
-                view.showConnectionFailure()
-            }
-        }
+        evilEyeService.checkConnection(onSuccess = {
+            checkLogin()
+        }, onFailure = {
+            view.showConnectionFailure()
+        })
     }
 
     override fun checkLogin() {
@@ -26,13 +24,11 @@ class LoginPresenter(private val evilEyeService: EvilEyeService,
     }
 
     override fun login(userName: String, password: String) {
-        evilEyeService.login(userName, password) { loginSucceed ->
-            if (loginSucceed) {
-                view.openVoteList()
-            } else {
-                view.showLoginFailure()
-            }
-        }
+        evilEyeService.login(userName, password, onSuccess = {
+            view.openVoteList()
+        }, onFailure = {
+            view.showLoginFailure()
+        })
     }
 
     companion object {
