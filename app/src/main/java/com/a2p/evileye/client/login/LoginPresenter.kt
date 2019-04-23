@@ -1,6 +1,5 @@
 package com.a2p.evileye.client.login
 
-import android.util.Log
 import com.a2p.evileye.client.data.user.UserRepository
 
 class LoginPresenter(private val userRepository: UserRepository,
@@ -12,10 +11,9 @@ class LoginPresenter(private val userRepository: UserRepository,
     override fun start() {
         userRepository.checkConnection { isConnected ->
             if (isConnected) {
-                view.openVoteList()
                 checkLogin()
             } else {
-                Log.d(TAG, "health check failed")
+                view.showConnectionFailure()
             }
         }
     }
@@ -28,7 +26,13 @@ class LoginPresenter(private val userRepository: UserRepository,
     }
 
     override fun login(userName: String, password: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        userRepository.login(userName, password) { loginSucceed ->
+            if (loginSucceed) {
+                view.openVoteList()
+            } else {
+                view.showLoginFailure()
+            }
+        }
     }
 
     companion object {

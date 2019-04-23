@@ -13,5 +13,7 @@ interface LoginContract {
         var isActive: Boolean
 
         fun openVoteList()
+        fun showLoginFailure()
+        fun showConnectionFailure()
     }
 }
