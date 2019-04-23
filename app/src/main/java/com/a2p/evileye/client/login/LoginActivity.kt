@@ -3,11 +3,9 @@ package com.a2p.evileye.client.login
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.a2p.evileye.client.R
-import com.a2p.evileye.client.data.user.UserRepository
 import com.a2p.evileye.client.util.ActivityUtils
 import com.github.salomonbrys.kodein.*
 import com.github.salomonbrys.kodein.android.appKodein
-import io.grpc.ManagedChannelBuilder
 
 class LoginActivity : AppCompatActivity() {
 

@@ -1,32 +1,43 @@
-package com.a2p.evileye.client.data.user
+package com.a2p.evileye.client.data
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
+import androidx.core.content.edit
 import com.yt8492.evileye.protobuf.Empty
 import com.yt8492.evileye.protobuf.LoginRequest
 import com.yt8492.evileye.protobuf.PublicGrpc
 import io.grpc.ManagedChannel
+import io.grpc.StatusRuntimeException
 
-class UserRepository(private val context: Context,
-                     channel: ManagedChannel) : UserDataSource {
+class EvilEyeService(private val context: Context,
+                     channel: ManagedChannel) {
     private val sharedPreferences by lazy {
         context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
     }
-
     private val stub = PublicGrpc.newBlockingStub(channel)
 
-    override fun checkConnection(result: (Boolean) -> Unit) {
+    @SuppressLint("CheckResult")
+    fun checkConnection(onSuccess: () -> Unit, onFailure: () -> Unit) {
         val req = Empty.newBuilder().build()
         try {
-            val res = stub.healthCheck(req)
-            result(res.commitHash.isNotBlank())
+            stub.healthCheck(req) // call health check
+            onSuccess()
+
+        } catch (e: StatusRuntimeException) {
+            if (e.status.description == "invalid unixtime") {
+                onSuccess()
+            } else {
+                e.printStackTrace()
+                onFailure()
+            }
         } catch (e: Exception) {
             e.printStackTrace()
-            result(false)
+            onFailure()
         }
     }
 
-    override fun login(userName: String, password: String, result: (Boolean) -> Unit) {
+    fun login(userName: String, password: String, onSuccess: () -> Unit, onFailure: () -> Unit) {
         val req = LoginRequest.newBuilder()
             .setScreenName(userName)
             .setPassword(password)
@@ -34,10 +45,14 @@ class UserRepository(private val context: Context,
         try {
             val res = stub.login(req)
             Log.d(TAG, "token: ${res.token}")
-            result(true)
+            val token = res.token
+            sharedPreferences.edit {
+                putString(KEY_TOKEN, token)
+            }
+            onSuccess()
         } catch (e: Exception) {
             e.printStackTrace()
-            result(false)
+            onFailure()
         }
     }
 
@@ -48,6 +63,6 @@ class UserRepository(private val context: Context,
     companion object {
         private const val PREF_NAME = "EVIL_EYE"
         private const val KEY_TOKEN = "KEY_TOKEN"
-        private const val TAG = "UserRepository"
+        private const val TAG = "EvilEyeService"
     }
 }
