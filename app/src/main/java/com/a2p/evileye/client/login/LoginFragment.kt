@@ -2,6 +2,7 @@ package com.a2p.evileye.client.login
 
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,10 +31,12 @@ class LoginFragment : Fragment(), LoginContract.View {
     }
 
     override fun openVoteList() {
-        Toast.makeText(context, "Connected", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "Connected", Toast.LENGTH_SHORT).show() // TODO: あとで変える
     }
 
     companion object {
+        const val TAG = "Login Fragment"
+
         @JvmStatic
         fun newInstance() = LoginFragment()
     }
