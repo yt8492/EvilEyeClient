@@ -6,9 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 
 import com.a2p.evileye.client.R
+import com.a2p.evileye.client.main.MainActivity
 import kotlinx.android.synthetic.main.fragment_login.*
 
 class LoginFragment : Fragment(), LoginContract.View {
@@ -27,6 +29,10 @@ class LoginFragment : Fragment(), LoginContract.View {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initListener()
+    }
+
+    private fun initListener() {
         loginButton.setOnClickListener {
             val userName = loginUserNameEditText.text.toString()
             val password = loginPasswordEditText.text.toString()
@@ -40,7 +46,10 @@ class LoginFragment : Fragment(), LoginContract.View {
     }
 
     override fun openVoteList() {
-        Toast.makeText(context, "ログインに成功しました", Toast.LENGTH_SHORT).show() // TODO: あとで変える
+        context?.let {
+            val intent = MainActivity.createIntent(it)
+            startActivity(intent)
+        }
     }
 
     override fun showLoginFailure() {
