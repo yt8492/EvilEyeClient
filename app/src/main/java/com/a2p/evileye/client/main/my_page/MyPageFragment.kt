@@ -1,4 +1,5 @@
-package com.a2p.evileye.client.main
+package com.a2p.evileye.client.main.my_page
+
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,9 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.a2p.evileye.client.R
-import com.yt8492.evileye.protobuf.User
+import com.a2p.evileye.client.main.MainContract
 
-class SearchFragment : Fragment(), MainContract.SearchView {
+class MyPageFragment : Fragment(), MainContract.MyPageView {
     override var isActive = false
         get() = isVisible
 
@@ -20,19 +21,15 @@ class SearchFragment : Fragment(), MainContract.SearchView {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_search, container, false)
+        return inflater.inflate(R.layout.fragment_my_page, container, false)
     }
 
-    override fun search(query: String) {
-
-    }
-
-    override fun showSearchResult(result: List<User>) {
+    override fun showMyPage() {
 
     }
 
     companion object {
         @JvmStatic
-        fun newInstance() = SearchFragment()
+        fun newInstance() = MyPageFragment()
     }
 }

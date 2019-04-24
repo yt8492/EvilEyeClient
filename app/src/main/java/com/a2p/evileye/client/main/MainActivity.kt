@@ -7,6 +7,9 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import com.a2p.evileye.client.R
+import com.a2p.evileye.client.main.my_page.MyPageFragment
+import com.a2p.evileye.client.main.search.SearchFragment
+import com.a2p.evileye.client.main.tarekomi_board.TarekomiBoardFragment
 import com.a2p.evileye.client.util.ActivityUtils
 import com.github.salomonbrys.kodein.*
 import com.github.salomonbrys.kodein.android.appKodein

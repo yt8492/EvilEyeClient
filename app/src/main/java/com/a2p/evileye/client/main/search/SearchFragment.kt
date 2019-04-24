@@ -1,5 +1,4 @@
-package com.a2p.evileye.client.main
-
+package com.a2p.evileye.client.main.search
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,9 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.a2p.evileye.client.R
-import com.yt8492.evileye.protobuf.Tarekomi
+import com.a2p.evileye.client.main.MainContract
+import com.yt8492.evileye.protobuf.User
 
-class TarekomiBoardFragment : Fragment(), MainContract.TarekomiBoardView {
+class SearchFragment : Fragment(), MainContract.SearchView {
     override var isActive = false
         get() = isVisible
 
@@ -21,19 +21,19 @@ class TarekomiBoardFragment : Fragment(), MainContract.TarekomiBoardView {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_tarekomi_board, container, false)
+        return inflater.inflate(R.layout.fragment_search, container, false)
     }
 
-    override fun showTarekomiView() {
+    override fun search(query: String) {
 
     }
 
-    override fun showTarekomiList(tarekomis: List<Tarekomi>) {
+    override fun showSearchResult(result: List<User>) {
 
     }
 
     companion object {
         @JvmStatic
-        fun newInstance() = TarekomiBoardFragment()
+        fun newInstance() = SearchFragment()
     }
 }

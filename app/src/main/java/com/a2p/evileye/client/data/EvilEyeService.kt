@@ -7,6 +7,7 @@ import androidx.core.content.edit
 import com.yt8492.evileye.protobuf.Empty
 import com.yt8492.evileye.protobuf.LoginRequest
 import com.yt8492.evileye.protobuf.PublicGrpc
+import com.yt8492.evileye.protobuf.TarekomiSummary
 import io.grpc.ManagedChannel
 import io.grpc.StatusRuntimeException
 
@@ -54,6 +55,10 @@ class EvilEyeService(private val context: Context,
             e.printStackTrace()
             onFailure()
         }
+    }
+
+    fun getTarekomiSummaries(): List<TarekomiSummary> {
+        return DummyDatas.tarekomiSummaries
     }
 
     fun getUserToken(): String? {
