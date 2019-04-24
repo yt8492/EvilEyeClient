@@ -2,7 +2,7 @@ package com.a2p.evileye.client.main
 
 import com.a2p.evileye.client.BasePresenter
 import com.a2p.evileye.client.BaseView
-import com.yt8492.evileye.protobuf.Tarekomi
+import com.yt8492.evileye.protobuf.TarekomiSummary
 import com.yt8492.evileye.protobuf.User
 
 typealias ViewSwitchListener = (MainNavigationViewItem) -> Unit
@@ -10,7 +10,7 @@ typealias ViewSwitchListener = (MainNavigationViewItem) -> Unit
 interface MainContract {
     interface MainPresenter : BasePresenter {
         fun showTarekomiBoardView()
-        fun listTarekomi()
+        fun listTarekomiSummaries()
         fun showSearchView()
         fun search(query: String)
         fun showMyPageView()
@@ -20,7 +20,7 @@ interface MainContract {
     interface TarekomiBoardView : BaseView<MainPresenter> {
         var isActive: Boolean
 
-        fun showTarekomiList(tarekomis: List<Tarekomi>)
+        fun showTarekomiSummaries(tarekomiSummaries: List<TarekomiSummary>)
         fun showTarekomiView()
     }
 

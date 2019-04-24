@@ -7,6 +7,12 @@ class MainPresenter(private val evilEyeService: EvilEyeService,
                     private val searchView: MainContract.SearchView,
                     private val myPageView: MainContract.MyPageView) : MainContract.MainPresenter {
 
+    init {
+        tarekomiBoardView.presenter = this
+        searchView.presenter = this
+        myPageView.presenter = this
+    }
+
     private val listeners = mutableListOf<ViewSwitchListener>()
 
     override fun start() {
@@ -19,8 +25,9 @@ class MainPresenter(private val evilEyeService: EvilEyeService,
         }
     }
 
-    override fun listTarekomi() {
-
+    override fun listTarekomiSummaries() {
+        val tarekomiSummaries = evilEyeService.getTarekomiSummaries()
+        tarekomiBoardView.showTarekomiSummaries(tarekomiSummaries)
     }
 
     override fun showSearchView() {
