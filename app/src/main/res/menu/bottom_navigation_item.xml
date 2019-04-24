@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+            android:id="@+id/tarekomi_board"
+            android:title="vote list"
+            android:icon="@drawable/ic_baseline_assignment_24px" />
+    <item
+            android:id="@+id/search"
+            android:title="search"
+            android:icon="@android:drawable/ic_menu_search" />
+    <item
+            android:id="@+id/myPage"
+            android:title="my page"
+            android:icon="@drawable/ic_baseline_assignment_ind_24px" />
+</menu>
