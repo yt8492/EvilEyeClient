@@ -7,6 +7,18 @@
         android:layout_height="match_parent"
         tools:context=".main.MainActivity">
 
+    <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <androidx.appcompat.widget.Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/colorPrimary"
+                app:title="@string/app_name"
+                app:titleTextColor="@color/cardview_light_background"
+                app:layout_scrollFlags="scroll|enterAlways"/>
+    </com.google.android.material.appbar.AppBarLayout>
+
     <include layout="@layout/content_main" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -17,5 +29,6 @@
             android:background="@color/colorPrimary"
             app:itemIconTint="@color/cardview_light_background"
             app:itemTextColor="@color/cardview_light_background"
+            app:layout_behavior="com.a2p.evileye.client.util.BottomNavigationBehavior"
             app:menu="@menu/bottom_navigation_item" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
