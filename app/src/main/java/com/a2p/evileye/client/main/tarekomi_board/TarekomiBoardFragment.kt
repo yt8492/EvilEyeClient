@@ -1,17 +1,17 @@
 package com.a2p.evileye.client.main.tarekomi_board
 
-
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.commit
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.a2p.evileye.client.R
 import com.a2p.evileye.client.main.MainContract
-import com.a2p.evileye.client.util.toast
+import com.a2p.evileye.client.main.tarekomi_detail.TarekomiDetailFragment
 import com.yt8492.evileye.protobuf.TarekomiSummary
 import kotlinx.android.synthetic.main.fragment_tarekomi_board.view.*
 
@@ -22,7 +22,7 @@ class TarekomiBoardFragment : Fragment(), MainContract.TarekomiBoardView {
     override lateinit var presenter: MainContract.MainPresenter
 
     private val listener: TarekomiSummaryItemClickListener = {
-        context?.toast("clicked: ${it.tarekomi.desc}")
+        openTarekomiDetail(it)
     }
 
     private val tarekomiSummaryRecyclerViewAdapter = TarekomiSummaryRecyclerViewAdapter(listener)
@@ -45,12 +45,22 @@ class TarekomiBoardFragment : Fragment(), MainContract.TarekomiBoardView {
         presenter.listTarekomiSummaries()
     }
 
-    override fun showTarekomiView() {
-
-    }
-
     override fun showTarekomiSummaries(tarekomiSummaries: List<TarekomiSummary>) {
         tarekomiSummaryRecyclerViewAdapter.addTarekomiSummaries(tarekomiSummaries)
+    }
+
+    override fun openTarekomiDetail(tarekomiSummary: TarekomiSummary) {
+        val tarekomiDetailFragment =
+            TarekomiDetailFragment.newInstance(tarekomiSummary, true)
+        tarekomiDetailFragment.presenter = presenter
+        childFragmentManager.commit {
+            add(R.id.tarekomiBoardFrame, tarekomiDetailFragment)
+            show(tarekomiDetailFragment)
+        }
+    }
+
+    override fun showTarekomiView() {
+
     }
 
     companion object {
