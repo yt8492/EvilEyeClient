@@ -4,7 +4,7 @@ import com.yt8492.evileye.protobuf.Tarekomi
 import com.yt8492.evileye.protobuf.TarekomiSummary
 
 object DummyDatas {
-    val tarekomiSummaries = (1..10).map { id ->
+    val tarekomiSummaries = (1..50).map { id ->
         TarekomiSummary.newBuilder()
             .setTarekomi(Tarekomi.newBuilder()
                 .setTargetUserId(id.toLong())
