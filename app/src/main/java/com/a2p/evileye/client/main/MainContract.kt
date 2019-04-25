@@ -4,6 +4,7 @@ import com.a2p.evileye.client.BasePresenter
 import com.a2p.evileye.client.BaseView
 import com.yt8492.evileye.protobuf.TarekomiSummary
 import com.yt8492.evileye.protobuf.User
+import com.yt8492.evileye.protobuf.VoteReq
 
 typealias ViewSwitchListener = (MainNavigationViewItem) -> Unit
 
@@ -13,6 +14,7 @@ interface MainContract {
         fun listTarekomiSummaries()
         fun showSearchView()
         fun search(query: String)
+        fun vote(tarekomiId: Long, desc: String)
         fun showMyPageView()
         fun addViewSwitchListener(listener: ViewSwitchListener)
     }
@@ -22,10 +24,13 @@ interface MainContract {
 
         fun showTarekomiSummaries(tarekomiSummaries: List<TarekomiSummary>)
         fun showTarekomiView()
+        fun openTarekomiDetail(tarekomiSummary: TarekomiSummary)
     }
 
-    interface VoteView : BaseView<MainPresenter> {
+    interface TarekomiDetailView : BaseView<MainPresenter> {
+        var waitingVote: Boolean
         fun vote()
+        fun openUrl()
     }
 
     interface SearchView : BaseView<MainPresenter> {
@@ -33,6 +38,7 @@ interface MainContract {
 
         fun search(query: String)
         fun showSearchResult(result: List<User>)
+        fun openTarekomiDetail(tarekomiSummary: TarekomiSummary)
     }
 
     interface MyPageView : BaseView<MainPresenter> {

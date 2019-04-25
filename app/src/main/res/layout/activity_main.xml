@@ -27,6 +27,7 @@
             android:layout_height="wrap_content"
             android:clickable="true"
             android:layout_gravity="top"
+            android:tint="@color/cardview_light_background"
             app:layout_anchor="@id/bottomNavigation"
             app:layout_anchorGravity="top|end"
             app:useCompatPadding="true"

@@ -8,6 +8,7 @@ import android.view.ViewGroup
 
 import com.a2p.evileye.client.R
 import com.a2p.evileye.client.main.MainContract
+import com.yt8492.evileye.protobuf.TarekomiSummary
 import com.yt8492.evileye.protobuf.User
 
 class SearchFragment : Fragment(), MainContract.SearchView {
@@ -29,6 +30,10 @@ class SearchFragment : Fragment(), MainContract.SearchView {
     }
 
     override fun showSearchResult(result: List<User>) {
+
+    }
+
+    override fun openTarekomiDetail(tarekomiSummary: TarekomiSummary) {
 
     }
 

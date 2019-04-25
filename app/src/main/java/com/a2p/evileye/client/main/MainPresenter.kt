@@ -6,7 +6,6 @@ class MainPresenter(private val evilEyeService: EvilEyeService,
                     private val tarekomiBoardView: MainContract.TarekomiBoardView,
                     private val searchView: MainContract.SearchView,
                     private val myPageView: MainContract.MyPageView) : MainContract.MainPresenter {
-
     init {
         tarekomiBoardView.presenter = this
         searchView.presenter = this
@@ -37,6 +36,10 @@ class MainPresenter(private val evilEyeService: EvilEyeService,
     }
 
     override fun search(query: String) {
+
+    }
+
+    override fun vote(tarekomiId: Long, desc: String) {
 
     }
 
