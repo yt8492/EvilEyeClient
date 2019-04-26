@@ -9,7 +9,6 @@ import com.yt8492.evileye.protobuf.LoginRequest
 import com.yt8492.evileye.protobuf.PublicGrpc
 import com.yt8492.evileye.protobuf.TarekomiSummary
 import io.grpc.ManagedChannel
-import io.grpc.StatusRuntimeException
 
 class EvilEyeService(private val context: Context,
                      channel: ManagedChannel) {
@@ -18,20 +17,12 @@ class EvilEyeService(private val context: Context,
     }
     private val stub = PublicGrpc.newBlockingStub(channel)
 
-    @SuppressLint("CheckResult")
     fun checkConnection(onSuccess: () -> Unit, onFailure: () -> Unit) {
         val req = Empty.newBuilder().build()
         try {
-            stub.healthCheck(req) // call health check
+            val res = stub.healthCheck(req) // call health check
+            Log.d(TAG, res.commitHash)
             onSuccess()
-
-        } catch (e: StatusRuntimeException) {
-            if (e.status.description == "invalid unixtime") {
-                onSuccess()
-            } else {
-                e.printStackTrace()
-                onFailure()
-            }
         } catch (e: Exception) {
             e.printStackTrace()
             onFailure()
