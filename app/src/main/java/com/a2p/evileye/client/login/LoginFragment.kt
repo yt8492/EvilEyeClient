@@ -5,12 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 
 import com.a2p.evileye.client.R
 import com.a2p.evileye.client.main.MainActivity
+import com.a2p.evileye.client.util.toast
 import kotlinx.android.synthetic.main.fragment_login.*
 
 class LoginFragment : Fragment(), LoginContract.View {
@@ -53,11 +52,11 @@ class LoginFragment : Fragment(), LoginContract.View {
     }
 
     override fun showLoginFailure() {
-        Toast.makeText(context, "ログインに失敗しました", Toast.LENGTH_SHORT).show()
+        context?.toast("ログインに失敗しました")
     }
 
     override fun showConnectionFailure() {
-        Toast.makeText(context, "サーバーとの通信に失敗しました", Toast.LENGTH_SHORT).show()
+        context?.toast("サーバーとの通信に失敗しました")
     }
 
     companion object {

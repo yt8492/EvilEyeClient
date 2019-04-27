@@ -3,19 +3,19 @@ package com.a2p.evileye.client.main.tarekomi_detail
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.net.toUri
 import androidx.fragment.app.commit
 
 import com.a2p.evileye.client.R
 import com.a2p.evileye.client.main.MainContract
 import com.a2p.evileye.client.main.vote.VoteDialogFragment
-import com.a2p.evileye.client.util.toast
 import com.yt8492.evileye.protobuf.TarekomiSummary
 import kotlinx.android.synthetic.main.activity_main.tarekomiFab
+import kotlinx.android.synthetic.main.fragment_tarekomi_detail.*
 import kotlinx.android.synthetic.main.fragment_tarekomi_detail.view.*
 
 class TarekomiDetailFragment : Fragment(), MainContract.TarekomiDetailView {
@@ -64,19 +64,21 @@ class TarekomiDetailFragment : Fragment(), MainContract.TarekomiDetailView {
         }
         activity?.onBackPressedDispatcher?.addCallback {
             fragmentManager?.commit {
-                this.remove(this@TarekomiDetailFragment)
+                remove(this@TarekomiDetailFragment)
             }
             true
+        }
+        tarekomiDetailUrlTextView.setOnClickListener {
+            openUrl()
         }
     }
 
     override fun onDestroy() {
-        activity?.tarekomiFab?.setOnClickListener(null)
         super.onDestroy()
+        parentFragment?.onResume()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        Log.d("onActivityResult", "$requestCode, $resultCode, ${data?.getStringExtra(VoteDialogFragment.VOTE_DESC)}")
         when (requestCode) {
             VoteDialogFragment.REQUEST_CODE -> {
                 if (resultCode == DialogInterface.BUTTON_POSITIVE) {
@@ -92,7 +94,9 @@ class TarekomiDetailFragment : Fragment(), MainContract.TarekomiDetailView {
     }
 
     override fun openUrl() {
-
+        val url = tarekomiSummary.tarekomi.url.toUri()
+        val intent = Intent(Intent.ACTION_VIEW, url)
+        startActivity(intent)
     }
 
     companion object {

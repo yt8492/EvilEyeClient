@@ -4,12 +4,12 @@ import com.a2p.evileye.client.BasePresenter
 import com.a2p.evileye.client.BaseView
 import com.yt8492.evileye.protobuf.TarekomiSummary
 import com.yt8492.evileye.protobuf.User
-import com.yt8492.evileye.protobuf.VoteReq
 
 typealias ViewSwitchListener = (MainNavigationViewItem) -> Unit
 
 interface MainContract {
     interface MainPresenter : BasePresenter {
+        fun tarekomi(url: String, userName: String, desc: String)
         fun showTarekomiBoardView()
         fun listTarekomiSummaries()
         fun showSearchView()

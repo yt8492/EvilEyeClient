@@ -19,6 +19,10 @@ class EvilEyeService(private val context: Context,
         .build())
     private var privateStub: PrivateGrpc.PrivateBlockingStub? = null
 
+    private fun getUserToken(): String? {
+        return sharedPreferences.getString(KEY_TOKEN, null)
+    }
+
     fun checkConnection(onSuccess: () -> Unit, onFailure: () -> Unit) {
         val req = Empty.newBuilder().build()
         try {
@@ -29,14 +33,6 @@ class EvilEyeService(private val context: Context,
             e.printStackTrace()
             onFailure()
         }
-    }
-
-    fun getTarekomiSummaries(): List<TarekomiSummary> {
-        return DummyDatas.tarekomiSummaries
-    }
-
-    private fun getUserToken(): String? {
-        return sharedPreferences.getString(KEY_TOKEN, null)
     }
 
     fun login(userName: String, password: String, onSuccess: () -> Unit, onFailure: () -> Unit) {
@@ -83,6 +79,41 @@ class EvilEyeService(private val context: Context,
         }
     }
 
+    fun tarekomi(url: String, userName: String, desc: String) {
+        val tarekomi = Tarekomi.newBuilder()
+            .setUrl(url)
+            .setTargetUserName(userName)
+            .setDesc(desc)
+            .build()
+        val req = TarekomiReq.newBuilder()
+            .setTarekomi(tarekomi)
+            .build()
+        try {
+            val res = privateStub?.tarekomi(req)
+            Log.e(TAG, "tarekomiRes: $res")
+        } catch (e: Exception)  {
+            e.printStackTrace()
+            logoutAndFinishApp()
+        }
+    }
+
+    fun getTarekomiSummaries(): List<TarekomiSummary> {
+        val req = TarekomiBoardReq.newBuilder()
+            .setOffset(0)
+            .setLimit(100)
+            .build()
+        privateStub?.let { stub ->
+            try {
+                val res = stub.tarekomiBoard(req)
+                return res.tarekomisList
+            } catch (e: Exception) {
+                e.printStackTrace()
+                logoutAndFinishApp()
+            }
+        }
+        return listOf()
+    }
+
     fun vote(tarekomiId: Long, desc: String) {
         val req = VoteReq.newBuilder()
             .setTarekomiId(tarekomiId)
@@ -91,7 +122,7 @@ class EvilEyeService(private val context: Context,
 
         try {
             val res = privateStub?.vote(req)
-            Log.d(TAG, "res: ${res.toString()}")
+            Log.d(TAG, "voteRes: $res")
         } catch (e: Exception) {
             e.printStackTrace()
             logoutAndFinishApp()
