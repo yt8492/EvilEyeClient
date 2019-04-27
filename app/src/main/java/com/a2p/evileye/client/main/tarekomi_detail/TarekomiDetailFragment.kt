@@ -1,9 +1,9 @@
 package com.a2p.evileye.client.main.tarekomi_detail
 
-
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -48,12 +48,18 @@ class TarekomiDetailFragment : Fragment(), MainContract.TarekomiDetailView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         activity?.tarekomiFab?.let { fab ->
-            fab.visibility = if (waiting) View.VISIBLE else View.GONE
-            fab.setOnClickListener {
-                val voteDialog = VoteDialogFragment().apply {
-                    setTargetFragment(this@TarekomiDetailFragment, VoteDialogFragment.REQUEST_CODE)
+            fab.visibility = if (waiting) {
+                fab.setOnClickListener {
+                    val voteDialog = VoteDialogFragment().apply {
+                        setTargetFragment(this@TarekomiDetailFragment, VoteDialogFragment.REQUEST_CODE)
+                    }
+                    fragmentManager?.let {
+                        voteDialog.show(it, VoteDialogFragment.VOTE_VIEW)
+                    }
                 }
-                voteDialog.show(childFragmentManager, VoteDialogFragment.VOTE_VIEW)
+                View.VISIBLE
+            } else {
+                View.GONE
             }
         }
         activity?.onBackPressedDispatcher?.addCallback {
@@ -64,13 +70,17 @@ class TarekomiDetailFragment : Fragment(), MainContract.TarekomiDetailView {
         }
     }
 
+    override fun onDestroy() {
+        activity?.tarekomiFab?.setOnClickListener(null)
+        super.onDestroy()
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        Log.d("onActivityResult", "$requestCode, $resultCode, ${data?.getStringExtra(VoteDialogFragment.VOTE_DESC)}")
         when (requestCode) {
             VoteDialogFragment.REQUEST_CODE -> {
                 if (resultCode == DialogInterface.BUTTON_POSITIVE) {
-                    context?.toast("vote")
-                } else {
-                    context?.toast("cancel")
+                    presenter.vote(tarekomiSummary.tarekomi.id, data?.getStringExtra(VoteDialogFragment.VOTE_DESC) ?: "")
                 }
             }
             else -> super.onActivityResult(requestCode, resultCode, data)

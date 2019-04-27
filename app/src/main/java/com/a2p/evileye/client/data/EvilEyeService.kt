@@ -1,55 +1,29 @@
 package com.a2p.evileye.client.data
 
-import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.util.Log
 import androidx.core.content.edit
-import com.yt8492.evileye.protobuf.Empty
-import com.yt8492.evileye.protobuf.LoginRequest
-import com.yt8492.evileye.protobuf.PublicGrpc
-import com.yt8492.evileye.protobuf.TarekomiSummary
-import io.grpc.ManagedChannel
-import io.grpc.StatusRuntimeException
+import com.yt8492.evileye.protobuf.*
+import io.grpc.ManagedChannelBuilder
 
 class EvilEyeService(private val context: Context,
-                     channel: ManagedChannel) {
+                     private val ipAddress: String,
+                     private val port: Int) {
     private val sharedPreferences by lazy {
         context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
     }
-    private val stub = PublicGrpc.newBlockingStub(channel)
+    private val publicStub = PublicGrpc.newBlockingStub(ManagedChannelBuilder
+        .forAddress(ipAddress, port)
+        .usePlaintext()
+        .build())
+    private var privateStub: PrivateGrpc.PrivateBlockingStub? = null
 
-    @SuppressLint("CheckResult")
     fun checkConnection(onSuccess: () -> Unit, onFailure: () -> Unit) {
         val req = Empty.newBuilder().build()
         try {
-            stub.healthCheck(req) // call health check
-            onSuccess()
-
-        } catch (e: StatusRuntimeException) {
-            if (e.status.description == "invalid unixtime") {
-                onSuccess()
-            } else {
-                e.printStackTrace()
-                onFailure()
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            onFailure()
-        }
-    }
-
-    fun login(userName: String, password: String, onSuccess: () -> Unit, onFailure: () -> Unit) {
-        val req = LoginRequest.newBuilder()
-            .setScreenName(userName)
-            .setPassword(password)
-            .build()
-        try {
-            val res = stub.login(req)
-            Log.d(TAG, "token: ${res.token}")
-            val token = res.token
-            sharedPreferences.edit {
-                putString(KEY_TOKEN, token)
-            }
+            val res = publicStub.healthCheck(req) // call health check
+            Log.d(TAG, res.commitHash)
             onSuccess()
         } catch (e: Exception) {
             e.printStackTrace()
@@ -61,8 +35,74 @@ class EvilEyeService(private val context: Context,
         return DummyDatas.tarekomiSummaries
     }
 
-    fun getUserToken(): String? {
+    private fun getUserToken(): String? {
         return sharedPreferences.getString(KEY_TOKEN, null)
+    }
+
+    fun login(userName: String, password: String, onSuccess: () -> Unit, onFailure: () -> Unit) {
+        val req = LoginRequest.newBuilder()
+            .setScreenName(userName)
+            .setPassword(password)
+            .build()
+        try {
+            val res = publicStub.login(req)
+            Log.d(TAG, "token: ${res.token}")
+            val token = res.token
+            sharedPreferences.edit {
+                putString(KEY_TOKEN, token)
+            }
+            val privateChannel = ManagedChannelBuilder.forAddress(ipAddress, port)
+                .intercept(AuthInterceptor(token))
+                .usePlaintext()
+                .build()
+            privateStub = PrivateGrpc.newBlockingStub(privateChannel)
+            onSuccess()
+        } catch (e: Exception) {
+            privateStub = null
+            e.printStackTrace()
+            onFailure()
+        }
+    }
+
+    fun checkLogin(onSuccess: () -> Unit, onFailure: () -> Unit) {
+        val token = getUserToken() ?: run {
+            onFailure()
+            return
+        }
+        try {
+            val privateChannel = ManagedChannelBuilder.forAddress(ipAddress, port)
+                .intercept(AuthInterceptor(token))
+                .usePlaintext()
+                .build()
+            privateStub = PrivateGrpc.newBlockingStub(privateChannel)
+            onSuccess()
+        } catch (e: Exception) {
+            privateStub = null
+            e.printStackTrace()
+            onFailure()
+        }
+    }
+
+    fun vote(tarekomiId: Long, desc: String) {
+        val req = VoteReq.newBuilder()
+            .setTarekomiId(tarekomiId)
+            .setDesc(desc)
+            .build()
+
+        try {
+            val res = privateStub?.vote(req)
+            Log.d(TAG, "res: ${res.toString()}")
+        } catch (e: Exception) {
+            e.printStackTrace()
+            logoutAndFinishApp()
+        }
+    }
+
+    private fun logoutAndFinishApp() {
+        sharedPreferences.edit {
+            putString(KEY_TOKEN, null)
+        }
+        (context as? Activity)?.finish()
     }
 
     companion object {
