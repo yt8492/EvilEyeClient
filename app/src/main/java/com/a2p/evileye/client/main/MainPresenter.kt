@@ -40,7 +40,7 @@ class MainPresenter(private val evilEyeService: EvilEyeService,
     }
 
     override fun vote(tarekomiId: Long, desc: String) {
-
+        evilEyeService.vote(tarekomiId, desc)
     }
 
     override fun showMyPageView() {

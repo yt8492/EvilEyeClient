@@ -1,9 +1,9 @@
 package com.a2p.evileye.client.main.tarekomi_detail
 
-
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -76,12 +76,11 @@ class TarekomiDetailFragment : Fragment(), MainContract.TarekomiDetailView {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        Log.d("onActivityResult", "$requestCode, $resultCode, ${data?.getStringExtra(VoteDialogFragment.VOTE_DESC)}")
         when (requestCode) {
             VoteDialogFragment.REQUEST_CODE -> {
                 if (resultCode == DialogInterface.BUTTON_POSITIVE) {
-                    context?.toast("vote")
-                } else {
-                    context?.toast("cancel")
+                    presenter.vote(tarekomiSummary.tarekomi.id, data?.getStringExtra(VoteDialogFragment.VOTE_DESC) ?: "")
                 }
             }
             else -> super.onActivityResult(requestCode, resultCode, data)

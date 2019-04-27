@@ -10,15 +10,11 @@ import io.grpc.ManagedChannelBuilder
 class App : Application(), KodeinAware {
     override val kodein by Kodein.lazy {
         import(applicationModule(this@App))
-        bind<ManagedChannel>() with singleton {
-            ManagedChannelBuilder.forAddress("10.0.2.2", 50051)
-                .usePlaintext()
-                .build()
-        }
         bind<EvilEyeService>() with singleton {
             EvilEyeService(
                 instance(),
-                instance()
+                "10.0.2.2",
+                50051
             )
         }
     }

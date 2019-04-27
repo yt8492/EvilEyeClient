@@ -17,10 +17,11 @@ class LoginPresenter(private val evilEyeService: EvilEyeService,
     }
 
     override fun checkLogin() {
-        val token = evilEyeService.getUserToken()
-        if (token != null) {
+        evilEyeService.checkLogin(onSuccess = {
             view.openVoteList()
-        }
+        }, onFailure = {
+            view.showLoginFailure()
+        })
     }
 
     override fun login(userName: String, password: String) {
