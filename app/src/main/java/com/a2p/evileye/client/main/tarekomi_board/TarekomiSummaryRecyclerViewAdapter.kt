@@ -38,4 +38,10 @@ class TarekomiSummaryRecyclerViewAdapter(private val listener: TarekomiSummaryIt
         this.tarekomiSummaries.addAll(tarekomiSummaries)
         notifyDataSetChanged()
     }
+
+    fun initTarekomiSummaries(tarekomiSummaries: List<TarekomiSummary>) {
+        this.tarekomiSummaries.clear()
+        this.tarekomiSummaries.addAll(tarekomiSummaries)
+        notifyDataSetChanged()
+    }
 }

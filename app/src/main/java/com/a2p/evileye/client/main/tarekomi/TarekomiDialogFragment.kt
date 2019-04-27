@@ -1,23 +1,46 @@
 package com.a2p.evileye.client.main.tarekomi
 
 
+import android.app.Dialog
+import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatDialogFragment
 
 import com.a2p.evileye.client.R
+import kotlinx.android.synthetic.main.fragment_tarekomi_dialog.view.*
 
-class TarekomiDialogFragment : Fragment() {
+class TarekomiDialogFragment : AppCompatDialogFragment() {
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_tarekomi_dialog, container, false)
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val activity = activity!!
+        val view = activity.layoutInflater.inflate(R.layout.fragment_tarekomi_dialog, null, false)
+        val builder = AlertDialog.Builder(activity).apply {
+            setTitle("投稿")
+            setView(view)
+            val listener = DialogInterface.OnClickListener { _, which ->
+                val intent = Intent().apply {
+                    val url = view.tarekomiUrlEditText.text.toString()
+                    val user = view.tarekomiUserNameEditText.text.toString()
+                    val desc = view.tarekomiDescEditText.text.toString()
+                    putExtra(TAREKOMI_URL, url)
+                    putExtra(TAREKOMI_USER, user)
+                    putExtra(TAREKOMI_DESC, desc)
+                }
+                targetFragment?.onActivityResult(targetRequestCode, which, intent)
+            }
+            setPositiveButton("タレコミ", listener)
+            setNegativeButton("キャンセル", null)
+        }
+        return builder.create()
     }
 
-
+    companion object {
+        const val REQUEST_CODE = 101
+        const val TAREKOMI_VIEW = "TAREKOMI_VIEW"
+        const val TAREKOMI_URL = "TAREKOMI_URL"
+        const val TAREKOMI_USER = "TAREKOMI_USER"
+        const val TAREKOMI_DESC = "TAREKOMI_DESC"
+    }
 }

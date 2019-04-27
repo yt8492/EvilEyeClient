@@ -1,6 +1,8 @@
 package com.a2p.evileye.client.main
 
 import com.a2p.evileye.client.data.EvilEyeService
+import com.yt8492.evileye.protobuf.Tarekomi
+import com.yt8492.evileye.protobuf.TarekomiReq
 
 class MainPresenter(private val evilEyeService: EvilEyeService,
                     private val tarekomiBoardView: MainContract.TarekomiBoardView,
@@ -16,6 +18,10 @@ class MainPresenter(private val evilEyeService: EvilEyeService,
 
     override fun start() {
 
+    }
+
+    override fun tarekomi(url: String, userName: String, desc: String) {
+        evilEyeService.tarekomi(url, userName, desc)
     }
 
     override fun showTarekomiBoardView() {
