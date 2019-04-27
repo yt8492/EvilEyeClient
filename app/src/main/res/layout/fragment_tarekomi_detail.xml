@@ -30,17 +30,17 @@
                 <TextView
                         android:id="@+id/tarekomiDetailUserNameTextView"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
                         android:textIsSelectable="true"
                         android:textSize="24sp" />
                 <TextView
                         android:id="@+id/tarekomiDetailUrlTextView"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
                         android:clickable="true"
-                        android:textSize="24sp" />
+                        android:ellipsize="end"
+                        android:maxLines="4"
+                        android:textSize="18sp" />
             </LinearLayout>
         </LinearLayout>
 
