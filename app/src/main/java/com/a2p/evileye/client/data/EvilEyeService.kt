@@ -32,7 +32,19 @@ class EvilEyeService(private val context: Context,
     }
 
     fun getTarekomiSummaries(): List<TarekomiSummary> {
-        return DummyDatas.tarekomiSummaries
+        val req = TarekomiBoardReq.newBuilder()
+            .setOffset(0)
+            .setLimit(100)
+            .build()
+        privateStub?.let { stub ->
+            try {
+                val res = stub.tarekomiBoard(req)
+                return res.tarekomisList
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+        return listOf()
     }
 
     private fun getUserToken(): String? {
