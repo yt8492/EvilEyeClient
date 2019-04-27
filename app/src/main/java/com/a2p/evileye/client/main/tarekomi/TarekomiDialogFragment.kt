@@ -1,4 +1,4 @@
-package com.a2p.evileye.client.main
+package com.a2p.evileye.client.main.tarekomi
 
 
 import android.os.Bundle

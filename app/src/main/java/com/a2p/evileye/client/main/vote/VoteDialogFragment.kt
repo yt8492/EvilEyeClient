@@ -21,7 +21,7 @@ class VoteDialogFragment : AppCompatDialogFragment() {
             val listener = DialogInterface.OnClickListener { dialog, which ->
                 val intent = Intent().apply {
                     val desc = view.voteDescEditText.text.toString()
-                    putExtra(desc, VOTE_DESC)
+                    putExtra(VOTE_DESC, desc)
                 }
                 targetFragment?.onActivityResult(targetRequestCode, which, intent)
             }
