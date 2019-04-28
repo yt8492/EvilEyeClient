@@ -6,6 +6,7 @@ import com.yt8492.evileye.protobuf.TarekomiSummary
 import com.yt8492.evileye.protobuf.User
 
 typealias ViewSwitchListener = (MainNavigationViewItem) -> Unit
+typealias LogoutListener = () -> Unit
 
 interface MainContract {
     interface MainPresenter : BasePresenter {
@@ -17,6 +18,8 @@ interface MainContract {
         fun vote(tarekomiId: Long, desc: String)
         fun showMyPageView()
         fun addViewSwitchListener(listener: ViewSwitchListener)
+        fun setOnLogoutListener(listener: LogoutListener)
+        fun logout()
     }
 
     interface TarekomiBoardView : BaseView<MainPresenter> {
@@ -44,7 +47,7 @@ interface MainContract {
     interface MyPageView : BaseView<MainPresenter> {
         var isActive: Boolean
 
-        fun showMyPage()
+        fun showMyPage(userInfo: User)
     }
 
     interface TarekomiView : BaseView<MainPresenter> {

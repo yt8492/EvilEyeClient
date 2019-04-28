@@ -25,7 +25,7 @@ class TarekomiSummaryRecyclerViewAdapter(private val listener: TarekomiSummaryIt
     override fun onBindViewHolder(holder: TarekomiSummaryViewHolder, position: Int) {
         val tarekomiSummary = tarekomiSummaries[position]
         with(holder) {
-            userNameTextView.text = tarekomiSummary.userName
+            userNameTextView.text = tarekomiSummary.tarekomi.targetUserName
             urlTextView.text = tarekomiSummary.tarekomi.url
             descTextView.text = tarekomiSummary.tarekomi.desc
             itemView.setOnClickListener {

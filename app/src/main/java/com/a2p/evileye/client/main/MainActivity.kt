@@ -55,6 +55,9 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
+        presenter.setOnLogoutListener {
+            finish()
+        }
         presenter.addViewSwitchListener { item ->
             when (item) {
                 MainNavigationViewItem.TAREKOMI_BOARD ->

@@ -1,8 +1,6 @@
 package com.a2p.evileye.client.main
 
 import com.a2p.evileye.client.data.EvilEyeService
-import com.yt8492.evileye.protobuf.Tarekomi
-import com.yt8492.evileye.protobuf.TarekomiReq
 
 class MainPresenter(private val evilEyeService: EvilEyeService,
                     private val tarekomiBoardView: MainContract.TarekomiBoardView,
@@ -14,7 +12,8 @@ class MainPresenter(private val evilEyeService: EvilEyeService,
         myPageView.presenter = this
     }
 
-    private val listeners = mutableListOf<ViewSwitchListener>()
+    private val viewSwitchListeners = mutableListOf<ViewSwitchListener>()
+    private var logoutListener: LogoutListener? = null
 
     override fun start() {
 
@@ -25,7 +24,7 @@ class MainPresenter(private val evilEyeService: EvilEyeService,
     }
 
     override fun showTarekomiBoardView() {
-        listeners.forEach { listener ->
+        viewSwitchListeners.forEach { listener ->
             listener(MainNavigationViewItem.TAREKOMI_BOARD)
         }
     }
@@ -36,7 +35,7 @@ class MainPresenter(private val evilEyeService: EvilEyeService,
     }
 
     override fun showSearchView() {
-        listeners.forEach { listener ->
+        viewSwitchListeners.forEach { listener ->
             listener(MainNavigationViewItem.SEARCH)
         }
     }
@@ -50,13 +49,23 @@ class MainPresenter(private val evilEyeService: EvilEyeService,
     }
 
     override fun showMyPageView() {
-        listeners.forEach { listener ->
+        viewSwitchListeners.forEach { listener ->
             listener(MainNavigationViewItem.MY_PAGE)
         }
+        val userInfo = evilEyeService.getMyInfo()
+        myPageView.showMyPage(userInfo)
     }
 
     override fun addViewSwitchListener(listener: ViewSwitchListener) {
-        listeners.add(listener)
+        viewSwitchListeners.add(listener)
     }
 
+    override fun setOnLogoutListener(listener: LogoutListener) {
+        logoutListener = listener
+    }
+
+    override fun logout() {
+        evilEyeService.logout()
+        logoutListener?.invoke()
+    }
 }
