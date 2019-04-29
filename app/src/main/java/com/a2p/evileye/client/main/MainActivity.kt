@@ -5,6 +5,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import com.a2p.evileye.client.R
@@ -27,6 +28,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         initPresenter()
+        initListener()
         when (intent.action) {
             Intent.ACTION_SEND -> {
                 val url = intent.getStringExtra(Intent.EXTRA_TEXT)
@@ -128,14 +130,17 @@ class MainActivity : AppCompatActivity() {
             when (it.itemId) {
                 R.id.tarekomi_board ->{
                     presenter.showTarekomiBoardView()
+                    tarekomiFab.visibility = View.VISIBLE
                     true
                 }
                 R.id.search -> {
                     presenter.showSearchView()
+                    tarekomiFab.visibility = View.GONE
                     true
                 }
                 R.id.myPage -> {
                     presenter.showMyPageView()
+                    tarekomiFab.visibility = View.GONE
                     true
                 }
                 else -> false
