@@ -128,6 +128,21 @@ class EvilEyeService(private val context: Context,
         }
     }
 
+    fun getUsers(): List<User> {
+        val req = GetUserListReq.newBuilder()
+            .setLimit(100)
+            .setOffset(0)
+            .build()
+        return try {
+            privateStub?.getUserList(req)
+                ?.usersList
+                ?: error("users is null")
+        } catch (e: Exception) {
+            e.printStackTrace()
+            listOf()
+        }
+    }
+
     fun getMyInfo(): User {
         val req = UserInfoReq.getDefaultInstance()
         return try {

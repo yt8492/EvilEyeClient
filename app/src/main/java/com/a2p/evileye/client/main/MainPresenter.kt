@@ -44,6 +44,11 @@ class MainPresenter(private val evilEyeService: EvilEyeService,
 
     }
 
+    override fun listUser() {
+        val users = evilEyeService.getUsers()
+        searchView.showSearchResult(users)
+    }
+
     override fun vote(tarekomiId: Long, desc: String) {
         evilEyeService.vote(tarekomiId, desc)
     }

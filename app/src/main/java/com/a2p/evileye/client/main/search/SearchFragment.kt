@@ -5,11 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.a2p.evileye.client.R
 import com.a2p.evileye.client.main.MainContract
-import com.yt8492.evileye.protobuf.TarekomiSummary
 import com.yt8492.evileye.protobuf.User
+import kotlinx.android.synthetic.main.fragment_search.view.*
 
 class SearchFragment : Fragment(), MainContract.SearchView {
     override var isActive = false
@@ -17,12 +19,28 @@ class SearchFragment : Fragment(), MainContract.SearchView {
 
     override lateinit var presenter: MainContract.MainPresenter
 
+    private val listener: UserItemClickListerner = {
+        openUserDetail(it)
+    }
+
+    private val userRecyclerViewAdapter = UserRecyclerViewAdapter(listener)
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_search, container, false)
+        val view = inflater.inflate(R.layout.fragment_search, container, false)
+        with(view.userRecyclerView) {
+            layoutManager = LinearLayoutManager(inflater.context)
+            adapter =  userRecyclerViewAdapter
+            addItemDecoration(DividerItemDecoration(inflater.context, DividerItemDecoration.VERTICAL))
+        }
+        return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        presenter.listUser()
     }
 
     override fun search(query: String) {
@@ -30,10 +48,10 @@ class SearchFragment : Fragment(), MainContract.SearchView {
     }
 
     override fun showSearchResult(result: List<User>) {
-
+        userRecyclerViewAdapter.initUsers(result)
     }
 
-    override fun openTarekomiDetail(tarekomiSummary: TarekomiSummary) {
+    override fun openUserDetail(user: User) {
 
     }
 

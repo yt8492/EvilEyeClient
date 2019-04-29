@@ -15,6 +15,7 @@ interface MainContract {
         fun listTarekomiSummaries()
         fun showSearchView()
         fun search(query: String)
+        fun listUser()
         fun vote(tarekomiId: Long, desc: String)
         fun showMyPageView()
         fun addViewSwitchListener(listener: ViewSwitchListener)
@@ -41,7 +42,7 @@ interface MainContract {
 
         fun search(query: String)
         fun showSearchResult(result: List<User>)
-        fun openTarekomiDetail(tarekomiSummary: TarekomiSummary)
+        fun openUserDetail(user: User)
     }
 
     interface MyPageView : BaseView<MainPresenter> {
