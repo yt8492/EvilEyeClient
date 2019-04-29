@@ -20,6 +20,7 @@
                 android:orientation="horizontal">
 
             <ImageView
+                    android:id="@+id/userDetailUserImageView"
                     android:src="@drawable/user_dummy"
                     android:layout_width="96dp"
                     android:layout_height="96dp"/>
@@ -27,6 +28,7 @@
                     android:id="@+id/userDetailUserNameTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
                     android:layout_gravity="center"
                     android:textSize="20sp"/>
         </LinearLayout>

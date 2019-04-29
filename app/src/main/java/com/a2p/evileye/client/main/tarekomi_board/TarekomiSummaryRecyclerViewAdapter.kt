@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.a2p.evileye.client.R
 import com.yt8492.evileye.protobuf.TarekomiSummary
+import kotlin.math.absoluteValue
 
 typealias TarekomiSummaryItemClickListener = (TarekomiSummary) -> Unit
 
@@ -25,6 +26,8 @@ class TarekomiSummaryRecyclerViewAdapter(private val listener: TarekomiSummaryIt
     override fun onBindViewHolder(holder: TarekomiSummaryViewHolder, position: Int) {
         val tarekomiSummary = tarekomiSummaries[position]
         with(holder) {
+            val hash = tarekomiSummary.tarekomi.targetUserName.hashCode().absoluteValue
+            userImageView.setImageResource(icons[hash % icons.size])
             userNameTextView.text = tarekomiSummary.tarekomi.targetUserName
             urlTextView.text = tarekomiSummary.tarekomi.url
             descTextView.text = tarekomiSummary.tarekomi.desc
@@ -43,5 +46,9 @@ class TarekomiSummaryRecyclerViewAdapter(private val listener: TarekomiSummaryIt
         this.tarekomiSummaries.clear()
         this.tarekomiSummaries.addAll(tarekomiSummaries)
         notifyDataSetChanged()
+    }
+
+    companion object {
+        private val icons = arrayOf(R.drawable.user_icon_1, R.drawable.user_icon_2, R.drawable.user_icon_3)
     }
 }

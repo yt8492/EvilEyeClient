@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.a2p.evileye.client.R
 import com.yt8492.evileye.protobuf.User
+import kotlin.math.absoluteValue
 
 typealias UserItemClickListerner = (User) -> Unit
 
@@ -23,6 +24,8 @@ class UserRecyclerViewAdapter(private val listener: UserItemClickListerner) : Re
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         val user =  users[position]
         with(holder) {
+            val hash = user.userName.hashCode().absoluteValue
+            userImageView.setImageResource(icons[hash % icons.size])
             userNameTextView.text = user.userName
             itemView.setOnClickListener {
                 listener(user)
@@ -39,5 +42,9 @@ class UserRecyclerViewAdapter(private val listener: UserItemClickListerner) : Re
         this.users.clear()
         this.users.addAll(users)
         notifyDataSetChanged()
+    }
+
+    companion object {
+        private val icons = arrayOf(R.drawable.user_icon_1, R.drawable.user_icon_2, R.drawable.user_icon_3)
     }
 }

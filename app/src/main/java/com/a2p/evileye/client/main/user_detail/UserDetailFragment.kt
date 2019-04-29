@@ -19,6 +19,7 @@ import com.a2p.evileye.client.util.toast
 import com.yt8492.evileye.protobuf.Tarekomi
 import com.yt8492.evileye.protobuf.User
 import kotlinx.android.synthetic.main.fragment_user_detail.view.*
+import kotlin.math.absoluteValue
 
 class UserDetailFragment : Fragment(), MainContract.UserDetailView {
     override var isActive = false
@@ -42,6 +43,8 @@ class UserDetailFragment : Fragment(), MainContract.UserDetailView {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_user_detail, container, false)
         with(view) {
+            val hash = user.userName.hashCode().absoluteValue
+            userDetailUserImageView.setImageResource(icons[hash % icons.size])
             userDetailUserNameTextView.text = user.userName
             with(userDetailTarekomiRecyclerView) {
                 layoutManager = LinearLayoutManager(inflater.context)
@@ -74,6 +77,8 @@ class UserDetailFragment : Fragment(), MainContract.UserDetailView {
 
     companion object {
         const val USER = "USER"
+
+        private val icons = arrayOf(R.drawable.user_icon_1, R.drawable.user_icon_2, R.drawable.user_icon_3)
 
         @JvmStatic
         fun newInstance(user: User) =
