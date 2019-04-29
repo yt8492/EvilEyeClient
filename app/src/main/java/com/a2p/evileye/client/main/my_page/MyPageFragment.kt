@@ -19,6 +19,7 @@ import com.yt8492.evileye.protobuf.Tarekomi
 import com.yt8492.evileye.protobuf.User
 import kotlinx.android.synthetic.main.fragment_my_page.*
 import kotlinx.android.synthetic.main.fragment_my_page.view.*
+import kotlin.math.absoluteValue
 
 class MyPageFragment : Fragment(), MainContract.MyPageView {
     override var isActive = false
@@ -46,6 +47,8 @@ class MyPageFragment : Fragment(), MainContract.MyPageView {
     }
 
     override fun showMyPage(userInfo: User) {
+        val hash = userInfo.userName.hashCode().absoluteValue
+        myPageUserImageView.setImageResource(icons[hash % icons.size])
         myPageUserNameTextView.text = userInfo.userName
         myPageLogoutButton.setOnClickListener {
             presenter.logout()
@@ -63,6 +66,8 @@ class MyPageFragment : Fragment(), MainContract.MyPageView {
     }
 
     companion object {
+        private val icons = arrayOf(R.drawable.user_icon_1, R.drawable.user_icon_2, R.drawable.user_icon_3)
+
         @JvmStatic
         fun newInstance() = MyPageFragment()
     }

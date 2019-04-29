@@ -5,8 +5,9 @@
               android:layout_height="wrap_content">
 
     <ImageView
+            android:id="@+id/usersUserImageView"
             android:layout_width="64dp"
-            android:layout_height="72dp"
+            android:layout_height="64dp"
             app:srcCompat="@drawable/user_dummy" />
     <TextView
             android:id="@+id/usersUserNameTextView"

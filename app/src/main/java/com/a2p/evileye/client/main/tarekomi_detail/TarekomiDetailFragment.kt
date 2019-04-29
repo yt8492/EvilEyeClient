@@ -17,6 +17,7 @@ import com.yt8492.evileye.protobuf.Tarekomi
 import kotlinx.android.synthetic.main.activity_main.tarekomiFab
 import kotlinx.android.synthetic.main.fragment_tarekomi_detail.*
 import kotlinx.android.synthetic.main.fragment_tarekomi_detail.view.*
+import kotlin.math.absoluteValue
 
 class TarekomiDetailFragment : Fragment(), MainContract.TarekomiDetailView {
     override lateinit var presenter: MainContract.MainPresenter
@@ -38,6 +39,8 @@ class TarekomiDetailFragment : Fragment(), MainContract.TarekomiDetailView {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_tarekomi_detail, container, false)
         with(view) {
+            val hash = tarekomi.targetUserName.hashCode().absoluteValue
+            tarekomiDetailUserImageView.setImageResource(icons[hash % icons.size])
             tarekomiDetailUserNameTextView.text = tarekomi.targetUserName
             tarekomiDetailUrlTextView.text = tarekomi.url
             tarekomiDetailDescTextView.text = tarekomi.desc
@@ -102,6 +105,8 @@ class TarekomiDetailFragment : Fragment(), MainContract.TarekomiDetailView {
     companion object {
         const val TAREKOMI = "TAREKOMI"
         const val WAITING_VOTE = "WAITING_VOTE"
+
+        private val icons = arrayOf(R.drawable.user_icon_1, R.drawable.user_icon_2, R.drawable.user_icon_3)
 
         @JvmStatic
         fun newInstance(tarekomi: Tarekomi, waitingVote: Boolean) =
