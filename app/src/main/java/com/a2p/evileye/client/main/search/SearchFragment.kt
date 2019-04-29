@@ -5,11 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.commit
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.a2p.evileye.client.R
 import com.a2p.evileye.client.main.MainContract
+import com.a2p.evileye.client.main.user_detail.UserDetailFragment
 import com.yt8492.evileye.protobuf.User
 import kotlinx.android.synthetic.main.fragment_search.view.*
 
@@ -52,7 +54,11 @@ class SearchFragment : Fragment(), MainContract.SearchView {
     }
 
     override fun openUserDetail(user: User) {
-
+        val userDetailFragment = UserDetailFragment.newInstance(user)
+        userDetailFragment.presenter = presenter
+        childFragmentManager.commit {
+            add(R.id.searchFrame, userDetailFragment)
+        }
     }
 
     companion object {

@@ -2,6 +2,7 @@ package com.a2p.evileye.client.main
 
 import com.a2p.evileye.client.BasePresenter
 import com.a2p.evileye.client.BaseView
+import com.yt8492.evileye.protobuf.Tarekomi
 import com.yt8492.evileye.protobuf.TarekomiSummary
 import com.yt8492.evileye.protobuf.User
 
@@ -10,6 +11,7 @@ typealias LogoutListener = () -> Unit
 
 interface MainContract {
     interface MainPresenter : BasePresenter {
+        fun tarekomiFromOutside(url: String)
         fun tarekomi(url: String, userName: String, desc: String)
         fun showTarekomiBoardView()
         fun listTarekomiSummaries()
@@ -28,6 +30,7 @@ interface MainContract {
 
         fun showTarekomiSummaries(tarekomiSummaries: List<TarekomiSummary>)
         fun showTarekomiView()
+        fun showTarekomiView(url: String)
         fun openTarekomiDetail(tarekomiSummary: TarekomiSummary)
     }
 
@@ -49,9 +52,12 @@ interface MainContract {
         var isActive: Boolean
 
         fun showMyPage(userInfo: User)
+        fun openTarekomiDetail(tarekomi: Tarekomi)
     }
 
-    interface TarekomiView : BaseView<MainPresenter> {
-        fun vote()
+    interface UserDetailView : BaseView<MainPresenter> {
+        var isActive: Boolean
+
+        fun openTarekomiDetail(tarekomi: Tarekomi)
     }
 }

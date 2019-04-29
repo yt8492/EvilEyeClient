@@ -13,7 +13,7 @@ import androidx.fragment.app.commit
 import com.a2p.evileye.client.R
 import com.a2p.evileye.client.main.MainContract
 import com.a2p.evileye.client.main.vote.VoteDialogFragment
-import com.yt8492.evileye.protobuf.TarekomiSummary
+import com.yt8492.evileye.protobuf.Tarekomi
 import kotlinx.android.synthetic.main.activity_main.tarekomiFab
 import kotlinx.android.synthetic.main.fragment_tarekomi_detail.*
 import kotlinx.android.synthetic.main.fragment_tarekomi_detail.view.*
@@ -28,8 +28,8 @@ class TarekomiDetailFragment : Fragment(), MainContract.TarekomiDetailView {
         arguments?.getBoolean(WAITING_VOTE) ?: false
     }
 
-    private val tarekomiSummary by lazy {
-        TarekomiSummary.parseFrom(arguments?.getByteArray(TAREKOMI_SUMMARY))
+    private val tarekomi: Tarekomi by lazy {
+        Tarekomi.parseFrom(arguments?.getByteArray(TAREKOMI))
     }
 
     override fun onCreateView(
@@ -38,9 +38,9 @@ class TarekomiDetailFragment : Fragment(), MainContract.TarekomiDetailView {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_tarekomi_detail, container, false)
         with(view) {
-            tarekomiDetailUserNameTextView.text = tarekomiSummary.userName
-            tarekomiDetailUrlTextView.text = tarekomiSummary.tarekomi.url
-            tarekomiDetailDescTextView.text = tarekomiSummary.tarekomi.desc
+            tarekomiDetailUserNameTextView.text = tarekomi.targetUserName
+            tarekomiDetailUrlTextView.text = tarekomi.url
+            tarekomiDetailDescTextView.text = tarekomi.desc
         }
         return view
     }
@@ -50,12 +50,7 @@ class TarekomiDetailFragment : Fragment(), MainContract.TarekomiDetailView {
         activity?.tarekomiFab?.let { fab ->
             fab.visibility = if (waiting) {
                 fab.setOnClickListener {
-                    val voteDialog = VoteDialogFragment().apply {
-                        setTargetFragment(this@TarekomiDetailFragment, VoteDialogFragment.REQUEST_CODE)
-                    }
-                    fragmentManager?.let {
-                        voteDialog.show(it, VoteDialogFragment.VOTE_VIEW)
-                    }
+                    vote()
                 }
                 View.VISIBLE
             } else {
@@ -82,7 +77,7 @@ class TarekomiDetailFragment : Fragment(), MainContract.TarekomiDetailView {
         when (requestCode) {
             VoteDialogFragment.REQUEST_CODE -> {
                 if (resultCode == DialogInterface.BUTTON_POSITIVE) {
-                    presenter.vote(tarekomiSummary.tarekomi.id, data?.getStringExtra(VoteDialogFragment.VOTE_DESC) ?: "")
+                    presenter.vote(tarekomi.id, data?.getStringExtra(VoteDialogFragment.VOTE_DESC) ?: "")
                 }
             }
             else -> super.onActivityResult(requestCode, resultCode, data)
@@ -90,24 +85,29 @@ class TarekomiDetailFragment : Fragment(), MainContract.TarekomiDetailView {
     }
 
     override fun vote() {
-
+        val voteDialog = VoteDialogFragment().apply {
+            setTargetFragment(this@TarekomiDetailFragment, VoteDialogFragment.REQUEST_CODE)
+        }
+        fragmentManager?.let {
+            voteDialog.show(it, VoteDialogFragment.VOTE_VIEW)
+        }
     }
 
     override fun openUrl() {
-        val url = tarekomiSummary.tarekomi.url.toUri()
+        val url = tarekomi.url.toUri()
         val intent = Intent(Intent.ACTION_VIEW, url)
         startActivity(intent)
     }
 
     companion object {
-        const val TAREKOMI_SUMMARY = "TAREKOMI_SUMMARY"
+        const val TAREKOMI = "TAREKOMI"
         const val WAITING_VOTE = "WAITING_VOTE"
 
         @JvmStatic
-        fun newInstance(tarekomiSummary: TarekomiSummary, waitingVote: Boolean) =
+        fun newInstance(tarekomi: Tarekomi, waitingVote: Boolean) =
             TarekomiDetailFragment().apply {
                 val bundle = Bundle()
-                bundle.putByteArray(TAREKOMI_SUMMARY, tarekomiSummary.toByteArray())
+                bundle.putByteArray(TAREKOMI, tarekomi.toByteArray())
                 bundle.putBoolean(WAITING_VOTE, waitingVote)
                 arguments = bundle
             }

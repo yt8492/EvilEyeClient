@@ -1,4 +1,4 @@
-package com.a2p.evileye.client.main.my_page
+package com.a2p.evileye.client.main.user_detail
 
 
 import android.os.Bundle
@@ -15,12 +15,12 @@ import com.a2p.evileye.client.main.MainContract
 import com.a2p.evileye.client.main.tarekomi_detail.TarekomiDetailFragment
 import com.a2p.evileye.client.main.user_tarekomi.TarekomiClickListener
 import com.a2p.evileye.client.main.user_tarekomi.UserTarekomiRecyclerViewAdapter
+import com.a2p.evileye.client.util.toast
 import com.yt8492.evileye.protobuf.Tarekomi
 import com.yt8492.evileye.protobuf.User
-import kotlinx.android.synthetic.main.fragment_my_page.*
-import kotlinx.android.synthetic.main.fragment_my_page.view.*
+import kotlinx.android.synthetic.main.fragment_user_detail.view.*
 
-class MyPageFragment : Fragment(), MainContract.MyPageView {
+class UserDetailFragment : Fragment(), MainContract.UserDetailView {
     override var isActive = false
         get() = isVisible
 
@@ -32,38 +32,55 @@ class MyPageFragment : Fragment(), MainContract.MyPageView {
 
     private val userTarekomiRecyclerViewAdapter = UserTarekomiRecyclerViewAdapter(listener)
 
+    private val user by lazy {
+        User.parseFrom(arguments?.getByteArray(USER))
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_my_page, container, false)
-        with(view.myPageTarekomiRecyclerView) {
-            layoutManager = LinearLayoutManager(inflater.context)
-            adapter = userTarekomiRecyclerViewAdapter
-            addItemDecoration(DividerItemDecoration(inflater.context, DividerItemDecoration.VERTICAL))
+        val view = inflater.inflate(R.layout.fragment_user_detail, container, false)
+        with(view) {
+            userDetailUserNameTextView.text = user.userName
+            with(userDetailTarekomiRecyclerView) {
+                layoutManager = LinearLayoutManager(inflater.context)
+                adapter = userTarekomiRecyclerViewAdapter
+                addItemDecoration(DividerItemDecoration(inflater.context, DividerItemDecoration.VERTICAL))
+            }
         }
+        userTarekomiRecyclerViewAdapter.initTarekomis(user.tarekomisList)
         return view
     }
 
-    override fun showMyPage(userInfo: User) {
-        myPageUserNameTextView.text = userInfo.userName
-        myPageLogoutButton.setOnClickListener {
-            presenter.logout()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        activity?.onBackPressedDispatcher?.addCallback {
+            fragmentManager?.commit {
+                remove(this@UserDetailFragment)
+            }
+            true
         }
-        userTarekomiRecyclerViewAdapter.initTarekomis(userInfo.tarekomisList)
     }
 
     override fun openTarekomiDetail(tarekomi: Tarekomi) {
         val tarekomiDetailFragment = TarekomiDetailFragment.newInstance(tarekomi, false)
         tarekomiDetailFragment.presenter = presenter
         childFragmentManager.commit {
-            add(R.id.myPageFrame, tarekomiDetailFragment)
+            add(R.id.userDetailFrame, tarekomiDetailFragment)
             show(tarekomiDetailFragment)
         }
     }
 
     companion object {
+        const val USER = "USER"
+
         @JvmStatic
-        fun newInstance() = MyPageFragment()
-    }
+        fun newInstance(user: User) =
+            UserDetailFragment().apply {
+                val  bundle = Bundle()
+                bundle.putByteArray(USER, user.toByteArray())
+                arguments  = bundle
+            }
+     }
 }
