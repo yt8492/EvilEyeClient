@@ -2,6 +2,7 @@ package com.a2p.evileye.client.main
 
 import com.a2p.evileye.client.BasePresenter
 import com.a2p.evileye.client.BaseView
+import com.yt8492.evileye.protobuf.Tarekomi
 import com.yt8492.evileye.protobuf.TarekomiSummary
 import com.yt8492.evileye.protobuf.User
 
@@ -51,7 +52,9 @@ interface MainContract {
         fun showMyPage(userInfo: User)
     }
 
-    interface TarekomiView : BaseView<MainPresenter> {
-        fun vote()
+    interface UserDetailView : BaseView<MainPresenter> {
+        var isActive: Boolean
+
+        fun openTarekomiDetail(tarekomi: Tarekomi)
     }
 }
