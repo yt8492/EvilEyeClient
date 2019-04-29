@@ -1,6 +1,5 @@
 package com.a2p.evileye.client.data
 
-import android.app.Activity
 import android.content.Context
 import android.util.Log
 import androidx.core.content.edit
@@ -93,7 +92,7 @@ class EvilEyeService(private val context: Context,
             Log.e(TAG, "tarekomiRes: $res")
         } catch (e: Exception)  {
             e.printStackTrace()
-            logoutAndFinishApp()
+            logout()
         }
     }
 
@@ -108,7 +107,7 @@ class EvilEyeService(private val context: Context,
                 return res.tarekomisList
             } catch (e: Exception) {
                 e.printStackTrace()
-                logoutAndFinishApp()
+                logout()
             }
         }
         return listOf()
@@ -125,15 +124,37 @@ class EvilEyeService(private val context: Context,
             Log.d(TAG, "voteRes: $res")
         } catch (e: Exception) {
             e.printStackTrace()
-            logoutAndFinishApp()
+            logout()
         }
     }
 
-    private fun logoutAndFinishApp() {
+    fun getMyInfo(): User {
+        val req = UserInfoReq.getDefaultInstance()
+        return try {
+            val userInfo = privateStub?.getUserInfo(req) ?: error("user info req failed")
+            User.newBuilder()
+                .setUserId(userInfo.userId)
+                .setUserName(userInfo.userName)
+                .addAllTarekomis((1..10).map {
+                    Tarekomi.newBuilder()
+                        .setId(it.toLong())
+                        .setTargetUserName(userInfo.userName)
+                        .setUrl("url$it")
+                        .setDesc("desc$it")
+                        .build()
+                })
+                .build()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            logout()
+            User.getDefaultInstance()
+        }
+    }
+
+    fun logout() {
         sharedPreferences.edit {
             putString(KEY_TOKEN, null)
         }
-        (context as? Activity)?.finish()
     }
 
     companion object {
