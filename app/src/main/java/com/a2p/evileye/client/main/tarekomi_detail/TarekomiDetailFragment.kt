@@ -50,12 +50,7 @@ class TarekomiDetailFragment : Fragment(), MainContract.TarekomiDetailView {
         activity?.tarekomiFab?.let { fab ->
             fab.visibility = if (waiting) {
                 fab.setOnClickListener {
-                    val voteDialog = VoteDialogFragment().apply {
-                        setTargetFragment(this@TarekomiDetailFragment, VoteDialogFragment.REQUEST_CODE)
-                    }
-                    fragmentManager?.let {
-                        voteDialog.show(it, VoteDialogFragment.VOTE_VIEW)
-                    }
+                    vote()
                 }
                 View.VISIBLE
             } else {
@@ -90,7 +85,12 @@ class TarekomiDetailFragment : Fragment(), MainContract.TarekomiDetailView {
     }
 
     override fun vote() {
-
+        val voteDialog = VoteDialogFragment().apply {
+            setTargetFragment(this@TarekomiDetailFragment, VoteDialogFragment.REQUEST_CODE)
+        }
+        fragmentManager?.let {
+            voteDialog.show(it, VoteDialogFragment.VOTE_VIEW)
+        }
     }
 
     override fun openUrl() {

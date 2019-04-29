@@ -12,8 +12,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.a2p.evileye.client.R
 import com.a2p.evileye.client.main.MainContract
+import com.a2p.evileye.client.main.tarekomi_detail.TarekomiDetailFragment
 import com.a2p.evileye.client.main.user_tarekomi.TarekomiClickListener
 import com.a2p.evileye.client.main.user_tarekomi.UserTarekomiRecyclerViewAdapter
+import com.a2p.evileye.client.util.toast
 import com.yt8492.evileye.protobuf.Tarekomi
 import com.yt8492.evileye.protobuf.User
 import kotlinx.android.synthetic.main.fragment_user_detail.view.*
@@ -62,7 +64,12 @@ class UserDetailFragment : Fragment(), MainContract.UserDetailView {
     }
 
     override fun openTarekomiDetail(tarekomi: Tarekomi) {
-
+        val tarekomiDetailFragment = TarekomiDetailFragment.newInstance(tarekomi, false)
+        tarekomiDetailFragment.presenter = presenter
+        childFragmentManager.commit {
+            add(R.id.userDetailFrame, tarekomiDetailFragment)
+            show(tarekomiDetailFragment)
+        }
     }
 
     companion object {

@@ -50,6 +50,7 @@ interface MainContract {
         var isActive: Boolean
 
         fun showMyPage(userInfo: User)
+        fun openTarekomiDetail(tarekomi: Tarekomi)
     }
 
     interface UserDetailView : BaseView<MainPresenter> {

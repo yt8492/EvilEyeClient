@@ -58,7 +58,6 @@ class SearchFragment : Fragment(), MainContract.SearchView {
         userDetailFragment.presenter = presenter
         childFragmentManager.commit {
             add(R.id.searchFrame, userDetailFragment)
-            show(userDetailFragment)
         }
     }
 
