@@ -84,7 +84,7 @@ class TarekomiBoardFragment : Fragment(), MainContract.TarekomiBoardView {
 
     override fun openTarekomiDetail(tarekomiSummary: TarekomiSummary) {
         val tarekomiDetailFragment =
-            TarekomiDetailFragment.newInstance(tarekomiSummary, true)
+            TarekomiDetailFragment.newInstance(tarekomiSummary.tarekomi, true)
         tarekomiDetailFragment.presenter = presenter
         childFragmentManager.commit {
             add(R.id.tarekomiBoardFrame, tarekomiDetailFragment)
