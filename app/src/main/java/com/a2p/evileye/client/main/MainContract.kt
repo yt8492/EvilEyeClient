@@ -11,6 +11,7 @@ typealias LogoutListener = () -> Unit
 
 interface MainContract {
     interface MainPresenter : BasePresenter {
+        fun tarekomiFromOutside(url: String)
         fun tarekomi(url: String, userName: String, desc: String)
         fun showTarekomiBoardView()
         fun listTarekomiSummaries()
@@ -29,6 +30,7 @@ interface MainContract {
 
         fun showTarekomiSummaries(tarekomiSummaries: List<TarekomiSummary>)
         fun showTarekomiView()
+        fun showTarekomiView(url: String)
         fun openTarekomiDetail(tarekomiSummary: TarekomiSummary)
     }
 
