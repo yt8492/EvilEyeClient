@@ -16,6 +16,9 @@ class TarekomiDialogFragment : AppCompatDialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val activity = activity!!
         val view = activity.layoutInflater.inflate(R.layout.fragment_tarekomi_dialog, null, false)
+        arguments?.getString(TAREKOMI_URL)?.let {
+            view.tarekomiUrlEditText.setText(it)
+        }
         val builder = AlertDialog.Builder(activity).apply {
             setTitle("投稿")
             setView(view)
@@ -42,5 +45,16 @@ class TarekomiDialogFragment : AppCompatDialogFragment() {
         const val TAREKOMI_URL = "TAREKOMI_URL"
         const val TAREKOMI_USER = "TAREKOMI_USER"
         const val TAREKOMI_DESC = "TAREKOMI_DESC"
+
+        @JvmStatic
+        fun newInstance() = TarekomiDialogFragment()
+
+        @JvmStatic
+        fun newInstance(url: String) =
+            TarekomiDialogFragment().apply {
+                val bundle = Bundle()
+                bundle.putString(TAREKOMI_URL, url)
+                arguments = bundle
+            }
     }
 }

@@ -93,8 +93,18 @@ class TarekomiBoardFragment : Fragment(), MainContract.TarekomiBoardView {
     }
 
     override fun showTarekomiView() {
-        val voteDialog = TarekomiDialogFragment().apply {
+        val voteDialog = TarekomiDialogFragment.newInstance().apply {
             setTargetFragment(this@TarekomiBoardFragment, TarekomiDialogFragment.REQUEST_CODE)
+        }
+        fragmentManager?.let {
+            voteDialog.show(it, TarekomiDialogFragment.TAREKOMI_VIEW)
+        }
+    }
+
+    override fun showTarekomiView(url: String) {
+        val voteDialog = TarekomiDialogFragment.newInstance(url).apply {
+            setTargetFragment(this@TarekomiBoardFragment, TarekomiDialogFragment.REQUEST_CODE)
+
         }
         fragmentManager?.let {
             voteDialog.show(it, TarekomiDialogFragment.TAREKOMI_VIEW)
