@@ -92,6 +92,7 @@ class MainActivity : AppCompatActivity() {
                     supportFragmentManager.commit {
                         active?.let {
                             if (it is TarekomiBoardFragment) {
+                                presenter.listTarekomiSummaries()
                                 return@commit
                             }
                             hide(it)

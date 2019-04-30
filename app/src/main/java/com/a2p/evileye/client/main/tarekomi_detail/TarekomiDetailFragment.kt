@@ -51,6 +51,10 @@ class TarekomiDetailFragment : Fragment(), MainContract.TarekomiDetailView {
 
     override fun onResume() {
         super.onResume()
+        initListener()
+    }
+
+    private fun initListener() {
         activity?.tarekomiFab?.let { fab ->
             fab.visibility = if (waiting) {
                 fab.setOnClickListener {
@@ -60,8 +64,24 @@ class TarekomiDetailFragment : Fragment(), MainContract.TarekomiDetailView {
             } else {
                 View.GONE
             }
+            if (waiting) {
+                with(fab) {
+                    visibility = View.VISIBLE
+                    setOnClickListener {
+                        vote()
+                    }
+                    setImageResource(R.drawable.ic_baseline_how_to_vote_24px)
+                }
+            } else {
+
+                with(fab) {
+                    visibility = View.GONE
+                    setImageResource(android.R.drawable.ic_input_add)
+                }
+            }
         }
         activity?.onBackPressedDispatcher?.addCallback {
+            activity?.tarekomiFab?.setImageResource(android.R.drawable.ic_input_add)
             fragmentManager?.commit {
                 remove(this@TarekomiDetailFragment)
             }
@@ -86,6 +106,7 @@ class TarekomiDetailFragment : Fragment(), MainContract.TarekomiDetailView {
             }
             else -> super.onActivityResult(requestCode, resultCode, data)
         }
+        initListener()
     }
 
     override fun vote() {
