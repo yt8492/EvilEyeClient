@@ -1,9 +1,11 @@
 package com.a2p.evileye.client.main.tarekomi_board
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.a2p.evileye.client.R
+import com.a2p.evileye.client.util.hideWayback
 import com.yt8492.evileye.protobuf.TarekomiSummary
 import kotlin.math.absoluteValue
 
@@ -29,7 +31,7 @@ class TarekomiSummaryRecyclerViewAdapter(private val listener: TarekomiSummaryIt
             val hash = tarekomiSummary.tarekomi.targetUserName.hashCode().absoluteValue
             userImageView.setImageResource(icons[hash % icons.size])
             userNameTextView.text = tarekomiSummary.tarekomi.targetUserName
-            urlTextView.text = tarekomiSummary.tarekomi.url
+            urlTextView.text = tarekomiSummary.tarekomi.url.hideWayback()
             descTextView.text = tarekomiSummary.tarekomi.desc
             itemView.setOnClickListener {
                 listener(tarekomiSummary)

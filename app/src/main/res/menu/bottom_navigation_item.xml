@@ -2,11 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
             android:id="@+id/tarekomi_board"
-            android:title="vote list"
+            android:title="waiting list"
             android:icon="@drawable/ic_baseline_assignment_24px" />
     <item
             android:id="@+id/search"
-            android:title="search"
+            android:title="find user"
             android:icon="@android:drawable/ic_menu_search" />
     <item
             android:id="@+id/myPage"

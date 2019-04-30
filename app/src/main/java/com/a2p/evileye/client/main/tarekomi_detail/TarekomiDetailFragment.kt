@@ -13,6 +13,7 @@ import androidx.fragment.app.commit
 import com.a2p.evileye.client.R
 import com.a2p.evileye.client.main.MainContract
 import com.a2p.evileye.client.main.vote.VoteDialogFragment
+import com.a2p.evileye.client.util.hideWayback
 import com.yt8492.evileye.protobuf.Tarekomi
 import kotlinx.android.synthetic.main.activity_main.tarekomiFab
 import kotlinx.android.synthetic.main.fragment_tarekomi_detail.*
@@ -42,7 +43,7 @@ class TarekomiDetailFragment : Fragment(), MainContract.TarekomiDetailView {
             val hash = tarekomi.targetUserName.hashCode().absoluteValue
             tarekomiDetailUserImageView.setImageResource(icons[hash % icons.size])
             tarekomiDetailUserNameTextView.text = tarekomi.targetUserName
-            tarekomiDetailUrlTextView.text = tarekomi.url
+            tarekomiDetailUrlTextView.text = tarekomi.url.hideWayback()
             tarekomiDetailDescTextView.text = tarekomi.desc
         }
         return view
