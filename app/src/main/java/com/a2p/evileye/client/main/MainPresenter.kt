@@ -24,7 +24,9 @@ class MainPresenter(private val evilEyeService: EvilEyeService,
     }
 
     override fun tarekomi(url: String, userName: String, desc: String) {
-        evilEyeService.tarekomi(url, userName, desc)
+        evilEyeService.tarekomi(url, userName, desc) {
+            tarekomiBoardView.showTarekomiView(url)
+        }
     }
 
     override fun showTarekomiBoardView() {

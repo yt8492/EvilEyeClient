@@ -98,6 +98,7 @@ class MainActivity : AppCompatActivity() {
                         }
                         show(tarekomiBoardFragment)
                         active = tarekomiBoardFragment
+                        presenter.listTarekomiSummaries()
                     }
                 MainNavigationViewItem.SEARCH ->
                     supportFragmentManager.commit {
