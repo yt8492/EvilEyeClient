@@ -15,6 +15,7 @@ import com.a2p.evileye.client.R
 import com.a2p.evileye.client.main.MainContract
 import com.a2p.evileye.client.main.tarekomi.TarekomiDialogFragment
 import com.a2p.evileye.client.main.tarekomi_detail.TarekomiDetailFragment
+import com.a2p.evileye.client.util.toast
 import com.yt8492.evileye.protobuf.TarekomiSummary
 import kotlinx.android.synthetic.main.activity_main.tarekomiFab
 import kotlinx.android.synthetic.main.fragment_tarekomi_board.view.*
@@ -67,8 +68,16 @@ class TarekomiBoardFragment : Fragment(), MainContract.TarekomiBoardView {
         when (requestCode) {
             TarekomiDialogFragment.REQUEST_CODE -> {
                 if (resultCode == DialogInterface.BUTTON_POSITIVE && data != null) {
-                    val url = data.getStringExtra(TarekomiDialogFragment.TAREKOMI_URL) ?: return
-                    val userName = data.getStringExtra(TarekomiDialogFragment.TAREKOMI_USER) ?: return
+                    val url = data.getStringExtra(TarekomiDialogFragment.TAREKOMI_URL)
+                    if (url.isNullOrBlank()) {
+                        context?.toast("URLを入力してください")
+                        return
+                    }
+                    val userName = data.getStringExtra(TarekomiDialogFragment.TAREKOMI_USER)
+                    if (userName.isNullOrBlank()) {
+                        context?.toast("タレコミ対象のユーザ名を入力してください")
+                        return
+                    }
                     val desc = data.getStringExtra(TarekomiDialogFragment.TAREKOMI_DESC)
                     presenter.tarekomi(url, userName, desc)
                     presenter.listTarekomiSummaries()
