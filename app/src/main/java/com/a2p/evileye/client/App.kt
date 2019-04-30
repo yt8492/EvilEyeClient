@@ -13,7 +13,7 @@ class App : Application(), KodeinAware {
         bind<EvilEyeService>() with singleton {
             EvilEyeService(
                 instance(),
-                "10.0.2.2",
+                "13.112.130.130",
                 50051
             )
         }
