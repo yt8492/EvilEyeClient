@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.a2p.evileye.client.R
+import com.a2p.evileye.client.util.hideWayback
 import com.yt8492.evileye.protobuf.Tarekomi
 
 typealias TarekomiClickListener = (Tarekomi) -> Unit
@@ -25,7 +26,7 @@ class UserTarekomiRecyclerViewAdapter(private val listener: TarekomiClickListene
     override fun onBindViewHolder(holder: UserTarekomiViewHolder, position: Int) {
         val tarekomi = tarekomis[position]
         with(holder) {
-            tarekomiUrlTextView.text = tarekomi.url
+            tarekomiUrlTextView.text = tarekomi.url.hideWayback()
             tarekomiDescTextView.text = tarekomi.desc
             itemView.setOnClickListener {
                 listener(tarekomi)
