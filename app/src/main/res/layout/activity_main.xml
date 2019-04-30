@@ -16,7 +16,7 @@
                 android:layout_height="?attr/actionBarSize"
                 android:background="@color/colorPrimary"
                 app:title="@string/app_name"
-                app:titleTextColor="@color/cardview_light_background"
+                app:titleTextColor="@android:color/white"
                 app:layout_scrollFlags="scroll|enterAlways"/>
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -27,8 +27,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="true"
+            android:focusable="true"
             android:layout_gravity="top"
-            android:tint="@color/cardview_light_background"
+            android:tint="@android:color/white"
             app:layout_anchor="@id/bottomNavigation"
             app:layout_anchorGravity="top|end"
             app:useCompatPadding="true"
@@ -39,8 +40,8 @@
             android:layout_height="?actionBarSize"
             android:layout_gravity="bottom"
             android:background="@color/colorPrimary"
-            app:itemIconTint="@color/cardview_light_background"
-            app:itemTextColor="@color/cardview_light_background"
+            app:itemIconTint="@color/bottom_nav_color"
+            app:itemTextColor="@color/bottom_nav_color"
             app:layout_behavior="com.a2p.evileye.client.util.BottomNavigationBehavior"
             app:menu="@menu/bottom_navigation_item" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
