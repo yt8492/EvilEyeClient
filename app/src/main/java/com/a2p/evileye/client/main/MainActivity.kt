@@ -93,6 +93,7 @@ class MainActivity : AppCompatActivity() {
                         active?.let {
                             if (it is TarekomiBoardFragment) {
                                 presenter.listTarekomiSummaries()
+                                show(it)
                                 return@commit
                             }
                             hide(it)
@@ -105,6 +106,8 @@ class MainActivity : AppCompatActivity() {
                     supportFragmentManager.commit {
                         active?.let {
                             if (it is SearchFragment) {
+                                presenter.listUser()
+                                show(it)
                                 return@commit
                             }
                             hide(it)
