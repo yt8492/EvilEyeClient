@@ -114,6 +114,7 @@ class MainActivity : AppCompatActivity() {
                         }
                         show(searchFragment)
                         active = searchFragment
+                        presenter.listUser()
                     }
                 MainNavigationViewItem.MY_PAGE ->
                     supportFragmentManager.commit {

@@ -64,6 +64,7 @@ class UserDetailFragment : Fragment(), MainContract.UserDetailView {
     private fun initListener() {
         activity?.onBackPressedDispatcher?.addCallback {
             fragmentManager?.commit {
+                hide(this@UserDetailFragment)
                 remove(this@UserDetailFragment)
             }
             true
