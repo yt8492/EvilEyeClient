@@ -51,6 +51,10 @@ class TarekomiDetailFragment : Fragment(), MainContract.TarekomiDetailView {
 
     override fun onResume() {
         super.onResume()
+        initListener()
+    }
+
+    private fun initListener() {
         activity?.tarekomiFab?.let { fab ->
             fab.visibility = if (waiting) {
                 fab.setOnClickListener {
@@ -102,6 +106,7 @@ class TarekomiDetailFragment : Fragment(), MainContract.TarekomiDetailView {
             }
             else -> super.onActivityResult(requestCode, resultCode, data)
         }
+        initListener()
     }
 
     override fun vote() {
