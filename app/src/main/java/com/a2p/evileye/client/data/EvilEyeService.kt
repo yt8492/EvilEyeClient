@@ -3,8 +3,11 @@ package com.a2p.evileye.client.data
 import android.content.Context
 import android.util.Log
 import androidx.core.content.edit
+import com.a2p.evileye.client.util.toast
 import com.yt8492.evileye.protobuf.*
 import io.grpc.ManagedChannelBuilder
+import io.grpc.Status
+import io.grpc.StatusRuntimeException
 
 class EvilEyeService(private val context: Context,
                      private val ipAddress: String,
@@ -90,6 +93,10 @@ class EvilEyeService(private val context: Context,
         try {
             val res = privateStub?.tarekomi(req)
             Log.e(TAG, "tarekomiRes: $res")
+        } catch (e: StatusRuntimeException) {
+            when (e.status.code) {
+                Status.Code.INVALID_ARGUMENT -> context.toast(e.status.description ?: "")
+            }
         } catch (e: Exception)  {
             e.printStackTrace()
             logout()
