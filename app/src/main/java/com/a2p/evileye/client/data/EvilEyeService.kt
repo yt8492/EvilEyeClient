@@ -147,18 +147,7 @@ class EvilEyeService(private val context: Context,
         val req = UserInfoReq.getDefaultInstance()
         return try {
             val userInfo = privateStub?.getUserInfo(req) ?: error("user info req failed")
-            User.newBuilder()
-                .setUserId(userInfo.userId)
-                .setUserName(userInfo.userName)
-                .addAllTarekomis((1..10).map {
-                    Tarekomi.newBuilder()
-                        .setId(it.toLong())
-                        .setTargetUserName(userInfo.userName)
-                        .setUrl("url$it")
-                        .setDesc("desc$it")
-                        .build()
-                })
-                .build()
+            userInfo
         } catch (e: Exception) {
             e.printStackTrace()
             logout()

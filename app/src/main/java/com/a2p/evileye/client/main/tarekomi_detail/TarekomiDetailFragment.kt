@@ -48,8 +48,8 @@ class TarekomiDetailFragment : Fragment(), MainContract.TarekomiDetailView {
         return view
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onResume() {
+        super.onResume()
         activity?.tarekomiFab?.let { fab ->
             fab.visibility = if (waiting) {
                 fab.setOnClickListener {

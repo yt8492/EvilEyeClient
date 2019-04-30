@@ -13,7 +13,7 @@ class UserRecyclerViewAdapter(private val listener: UserItemClickListerner) : Re
     private val users = mutableListOf<User>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
-        val inflate = LayoutInflater.from(parent.context).inflate(R.layout.item_user, null, false)
+        val inflate = LayoutInflater.from(parent.context).inflate(R.layout.item_user, parent, false)
         return UserViewHolder(inflate)
     }
 
