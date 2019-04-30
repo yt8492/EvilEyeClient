@@ -3,6 +3,7 @@ package com.a2p.evileye.client.main.tarekomi_board
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -71,11 +72,13 @@ class TarekomiBoardFragment : Fragment(), MainContract.TarekomiBoardView {
                     val url = data.getStringExtra(TarekomiDialogFragment.TAREKOMI_URL)
                     if (url.isNullOrBlank()) {
                         context?.toast("URLを入力してください")
+                        showTarekomiView(url)
                         return
                     }
                     val userName = data.getStringExtra(TarekomiDialogFragment.TAREKOMI_USER)
                     if (userName.isNullOrBlank()) {
                         context?.toast("タレコミ対象のユーザ名を入力してください")
+                        showTarekomiView(url)
                         return
                     }
                     val desc = data.getStringExtra(TarekomiDialogFragment.TAREKOMI_DESC)

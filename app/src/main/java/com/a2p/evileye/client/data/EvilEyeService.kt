@@ -81,7 +81,7 @@ class EvilEyeService(private val context: Context,
         }
     }
 
-    fun tarekomi(url: String, userName: String, desc: String) {
+    fun tarekomi(url: String, userName: String, desc: String, onFailure: () -> Unit) {
         val tarekomi = Tarekomi.newBuilder()
             .setUrl(url)
             .setTargetUserName(userName)
@@ -95,7 +95,10 @@ class EvilEyeService(private val context: Context,
             Log.e(TAG, "tarekomiRes: $res")
         } catch (e: StatusRuntimeException) {
             when (e.status.code) {
-                Status.Code.INVALID_ARGUMENT -> context.toast(e.status.description ?: "")
+                Status.Code.INVALID_ARGUMENT -> {
+                    context.toast(e.status.description ?: "")
+                    onFailure()
+                }
             }
         } catch (e: Exception)  {
             e.printStackTrace()
