@@ -8,11 +8,13 @@
             android:id="@+id/usersUserImageView"
             android:layout_width="64dp"
             android:layout_height="64dp"
+            android:layout_margin="4dp"
             app:srcCompat="@drawable/user_dummy" />
     <TextView
             android:id="@+id/usersUserNameTextView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textAlignment="textStart"
+            android:layout_marginStart="16dp"
+            android:gravity="center_vertical"
             android:textSize="20sp"/>
 </LinearLayout>

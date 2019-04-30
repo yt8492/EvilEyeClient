@@ -56,8 +56,8 @@ class UserDetailFragment : Fragment(), MainContract.UserDetailView {
         return view
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onResume() {
+        super.onResume()
         activity?.onBackPressedDispatcher?.addCallback {
             fragmentManager?.commit {
                 remove(this@UserDetailFragment)

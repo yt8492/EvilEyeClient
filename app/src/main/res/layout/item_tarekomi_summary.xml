@@ -25,21 +25,49 @@
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:orientation="vertical">
-        <TextView
-                android:id="@+id/tarekomiSummaryUrlTextView"
+
+        <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLines="2"
-                android:ellipsize="end"
-                android:textSize="24sp" />
-        <TextView
-                android:id="@+id/tarekomiSummaryDescTextView"
+                android:orientation="horizontal">
+
+            <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    app:srcCompat="@drawable/ic_baseline_link_24px"/>
+
+            <TextView
+                    android:id="@+id/tarekomiSummaryUrlTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:textSize="20sp" />
+        </LinearLayout>
+
+        <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLines="2"
-                android:ellipsize="end"
-                android:textSize="24sp" />
+                android:orientation="horizontal">
+
+            <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    app:srcCompat="@drawable/ic_baseline_assignment_24px"/>
+            <TextView
+                    android:id="@+id/tarekomiSummaryDescTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:textSize="20sp" />
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>
